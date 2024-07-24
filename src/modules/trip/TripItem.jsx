@@ -5,7 +5,7 @@ import { image_url } from '@/configs/common';
 import TicketDetail from '@/modules/trip/TicketDetail';
 import TripDetail from '@/modules/trip/TripDetail';
 import TripTicket from '@/modules/trip/TripTicket';
-import { getTimeFromDatetime, subtractDateTimes } from '@/utils/date';
+import { convertDatetime, getTimeFromDatetime, subtractDateTimes } from '@/utils/date';
 import { formatCurrency } from '@/utils/money';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { Button, Popover, Tag } from 'antd';
@@ -68,14 +68,21 @@ const TripItem = ({ tripData }) => {
               <LocationIcon />
               <div className="flex flex-col gap-2">
                 <p>
-                  <span className="text-lg font-bold">{getTimeFromDatetime(tripData?.departure_time)} • </span>
+                  <span className="text-lg font-bold">
+                    {getTimeFromDatetime(convertDatetime(tripData?.departure_time))} •{' '}
+                  </span>
                   <span>{tripData?.route_start}</span>
                 </p>
                 <p className="text-[#707070] text-[14px]">
-                  {subtractDateTimes(tripData?.departure_time, tripData?.scheduled_end_time)}
+                  {subtractDateTimes(
+                    convertDatetime(tripData?.departure_time),
+                    convertDatetime(tripData?.scheduled_end_time)
+                  )}
                 </p>
                 <p>
-                  <span className="text-lg font-bold">{getTimeFromDatetime(tripData?.scheduled_end_time)} • </span>
+                  <span className="text-lg font-bold">
+                    {getTimeFromDatetime(convertDatetime(tripData?.scheduled_end_time))} •{' '}
+                  </span>
                   <span>{tripData?.route_end}</span>
                 </p>
               </div>

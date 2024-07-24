@@ -11,7 +11,7 @@ export const getBillList = async () => {
 
 export const createBill = async (data) => {
   try {
-    const response = await request.post('/bill', data);
+    const response = await request.post('/bill/store', data);
     return response.data;
   } catch (error) {
     return Promise.reject(error);

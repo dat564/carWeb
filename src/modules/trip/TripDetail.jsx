@@ -8,11 +8,6 @@ import React from 'react';
 
 const items = [
   {
-    key: '1',
-    label: 'Hình ảnh',
-    children: <ImageTab />
-  },
-  {
     key: '3',
     label: 'Điểm đón, trả',
     children: <DestinationTab />

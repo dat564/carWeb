@@ -63,6 +63,7 @@ const SearchForm = ({ queryData = {} }) => {
 
     const queryString = new URLSearchParams(values).toString();
     router.push(`/trip?${queryString}`);
+    setLoading(false);
   };
 
   const onFinishFailed = (errorInfo) => {

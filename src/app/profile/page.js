@@ -1,16 +1,27 @@
 'use client';
 
-import { Breadcrumb, Button } from 'antd';
+import { Breadcrumb, Button, Form } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ProForm, ProFormDatePicker, ProFormText } from '@ant-design/pro-components';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import Link from 'next/link';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useRecoilValue } from 'recoil';
+import { userInfoAtom } from '@/atom';
+import { useEffect } from 'react';
 
 export default function Page({ params }) {
   const searchParams = useSearchParams();
   const queryData = Object.fromEntries(searchParams.entries());
+  const userInfo = useRecoilValue(userInfoAtom);
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (userInfo) {
+      form.setFieldsValue(userInfo);
+    }
+  }, [form, userInfo]);
 
   return (
     <div className="flex flex-col items-center gap-5 pb-10 mx-auto min-h-[100vh]">
@@ -52,7 +63,7 @@ export default function Page({ params }) {
         </div>
         <div className="flex-1 p-5 bg-white rounded-lg">
           <h3 className="mb-5">Thông tin tài khoản</h3>
-          <ProForm submitter={false}>
+          <ProForm submitter={false} form={form}>
             <ProFormText
               label="Họ và tên"
               rules={[
@@ -64,7 +75,7 @@ export default function Page({ params }) {
               name="name"
             ></ProFormText>
             <ProFormText label="Số điện thoại" name="phone" disabled></ProFormText>
-            <ProFormDatePicker label="Ngày sinh" name="dob"></ProFormDatePicker>
+            <ProFormText label="Email" name="email" disabled></ProFormText>
             <Button className="flex items-center justify-center w-full py-5 text-lg font-medium text-white bg-blue-500">
               Lưu
             </Button>

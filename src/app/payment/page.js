@@ -24,13 +24,22 @@ export default function Page({ params }) {
 
   const handleContinue = async () => {
     setLoading(true);
-    await createBill({
-      customerName: name,
-      customerPhone: phone,
-      tripId: currentTrip.trip.id,
-      totalPrices: currentTrip.totalPrices
-    });
-    router.push('/payment-method');
+    try {
+      const { data } = await createBill([
+        {
+          phone: phone,
+          trip_id: currentTrip.trip.id,
+          breakpoint_trip_id: currentTrip.break_point_id,
+          pick_up_point: currentTrip.start_point,
+          drop_off_point: currentTrip.end_point,
+          ticket_ids: currentTrip.tickets.map((item) => item.id)
+        }
+      ]);
+      router.push(`/payment-method?$billId=${data[0].id}`);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

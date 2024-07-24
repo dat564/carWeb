@@ -8,7 +8,10 @@ import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from 'next/link';
 import TicketItem from '@/modules/myTicket/TicketItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getBillList } from '@/services/bill';
+import { BillStatus } from '@/constants/bill';
+import { TRIP_STATUS } from '@/constants/trip';
 
 const Tab = {
   CURRENT: 'current',
@@ -20,8 +23,40 @@ export default function Page({ params }) {
   const searchParams = useSearchParams();
   const queryData = Object.fromEntries(searchParams.entries());
   const [currentTab, setCurrentTab] = useState('current');
+  const [ticketList, setTicketList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentTicket, setCurrentTicket] = useState([]);
+
+  const handleGetTickets = async () => {
+    try {
+      const { data } = await getBillList();
+      setTicketList(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetTickets();
+  }, []);
+
+  useEffect(() => {
+    if (ticketList.length > 0) {
+      switch (currentTab) {
+        case Tab.CURRENT:
+          setCurrentTicket(ticketList.filter((ticket) => ticket.trip.status === TRIP_STATUS.PENDING_DEPARTURE));
+          break;
+        case Tab.PAST:
+          setCurrentTicket(ticketList.filter((ticket) => ticket.trip.status === TRIP_STATUS.LANDED));
+          break;
+        case Tab.CANCEL:
+          setCurrentTicket(ticketList.filter((ticket) => ticket.status === BillStatus.CANCELED));
+          break;
+        default:
+          break;
+      }
+    }
+  }, [currentTab, ticketList]);
 
   return (
     <div className="flex flex-col items-center gap-5 pb-10 mx-auto min-h-[100vh]">
@@ -96,7 +131,11 @@ export default function Page({ params }) {
               </Link>
             </div>
           ) : (
-            currentTicket.map((ticket, index) => <TicketItem key={index} />)
+            <div className="flex flex-col gap-5">
+              {currentTicket.map((ticket, index) => (
+                <TicketItem key={index} />
+              ))}
+            </div>
           )}
         </div>
       </div>

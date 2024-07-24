@@ -4,6 +4,8 @@ import LoginModal from '@/modules/auth/LoginModal';
 import { PhoneFilled } from '@ant-design/icons';
 import { Button } from 'antd';
 import React from 'react';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
 const Header = () => {
   return (
@@ -13,9 +15,9 @@ const Header = () => {
           <Logo className="text-4xl" />
         </div>
         <div className="flex items-center gap-5">
-          <Button type="text" className="p-0 font-medium text-white hover:!text-white">
+          <Link href="/my-ticket" className="text-sm transition-all hover:underline">
             Quản lý đơn của tôi
-          </Button>
+          </Link>
           <Button className="flex items-center font-semibold">
             Hotline 24/7 <PhoneFilled />
           </Button>

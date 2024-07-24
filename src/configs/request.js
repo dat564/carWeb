@@ -39,7 +39,7 @@ request.interceptors.request.use(
 
     if (jwtToken) {
       // Attach the JWT token to the request headers
-      config.headers['Authorization'] = `Bearer ${jwtToken}`;
+      config.headers['Authorization'] = `Bearer ${JSON.parse(jwtToken)}`;
     }
 
     return config;

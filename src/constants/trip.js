@@ -1,0 +1,6 @@
+export const TRIP_STATUS = {
+  PENDING_DEPARTURE: 0,
+  BOARDING: 1,
+  TAXIING: 2,
+  LANDED: 3
+};

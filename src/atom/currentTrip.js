@@ -8,6 +8,7 @@ export const currentTripAtom = atom({
     tickets: [],
     totalPrices: 0,
     start_point: '',
-    end_point: ''
+    end_point: '',
+    break_point_id: null
   }
 });

@@ -14,6 +14,7 @@ const LoginModal = ({ visible, handleCancel }) => {
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useRecoilState(isAuthenticatedAtom);
   const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
+  const [isLoginWithPhone, setIsLoginWithPhone] = useState(false);
 
   const handleLogin = async (values) => {
     setLoading(true);
@@ -25,7 +26,7 @@ const LoginModal = ({ visible, handleCancel }) => {
         setUserInfo(user);
 
         // Save token to local storage
-        setLocalStorage('token', authorization.access_token);
+        setLocalStorage('jwtToken', authorization.access_token);
         setLocalStorage('isAuthenticated', true);
         setLocalStorage('refresh_token', authorization.refresh_token);
         setLocalStorage('userInfo', user);
@@ -55,7 +56,16 @@ const LoginModal = ({ visible, handleCancel }) => {
       <div className="content">
         <Spin spinning={loading}>
           <ProForm submitter={false} onFinish={handleLogin}>
-            <ProFormText name="email" label="Email" rules={validateWithAntd(['required'])} className="p-4" />
+            {isLoginWithPhone ? (
+              <ProFormText
+                name="phone"
+                label="Số điện thoại"
+                rules={validateWithAntd(['required', 'phone'])}
+                className="p-4"
+              />
+            ) : (
+              <ProFormText name="email" label="Email" rules={validateWithAntd(['required', 'email'])} className="p-4" />
+            )}
             <ProFormText.Password
               name="password"
               label="Mật khẩu"
@@ -65,6 +75,9 @@ const LoginModal = ({ visible, handleCancel }) => {
             <Button className="w-full h-[50px]" htmlType="submit">
               Đăng nhập
             </Button>
+            <div className="flex items-center justify-center" onClick={() => setIsLoginWithPhone((prev) => !prev)}>
+              <Button type="link">Đăng nhập bằng {isLoginWithPhone ? 'email' : 'số điện thoại'}</Button>
+            </div>
           </ProForm>
           <div className="relative w-full my-2 text-center">
             <div className="absolute w-[200px] h-[1px] z-[1] top-1/2 -translate-y-1/2 bg-[#b4abab]"></div>
