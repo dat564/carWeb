@@ -1,6 +1,6 @@
 "use client";
 
-import { Breadcrumb, Button } from "antd";
+import { Breadcrumb, Button, Spin } from "antd";
 import { useSearchParams } from "next/navigation";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
@@ -29,20 +29,24 @@ export default function Page({ params }) {
     const [currentTab, setCurrentTab] = useState("current");
     const [ticketList, setTicketList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState();
     const [currentTicket, setCurrentTicket] = useState([]);
 
     const handleGetTickets = async () => {
         try {
+            setLoading(true);
             const { data } = await getBillList();
             setTicketList(data);
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 
     useEffect(() => {
         handleGetTickets();
-    }, []);
+    }, [refresh]);
 
     useEffect(() => {
         if (ticketList.length > 0) {
@@ -52,7 +56,8 @@ export default function Page({ params }) {
                         ticketList.filter(
                             (ticket) =>
                                 ticket.trip.status ===
-                                TRIP_STATUS.PENDING_DEPARTURE
+                                    TRIP_STATUS.PENDING_DEPARTURE &&
+                                ticket.status !== BillStatus.CANCELED
                         )
                     );
                     break;
@@ -149,7 +154,7 @@ export default function Page({ params }) {
                         </div>
                     </div>
                     {currentTicket.length === 0 ? (
-                        <div>
+                        <Spin spinning={loading}>
                             Bạn chưa có chuyến sắp đi nào.{" "}
                             <Link
                                 href={"/"}
@@ -157,17 +162,21 @@ export default function Page({ params }) {
                             >
                                 Đặt chuyến đi ngay
                             </Link>
-                        </div>
+                        </Spin>
                     ) : (
-                        <div className='flex flex-col gap-5'>
+                        <Spin
+                            spinning={loading}
+                            className='flex flex-col gap-5'
+                        >
                             {currentTicket.map((ticket, index) => (
                                 <TicketItem
                                     key={index}
                                     ticket={ticket}
                                     currentTab={currentTab}
+                                    setRefresh={setRefresh}
                                 />
                             ))}
-                        </div>
+                        </Spin>
                     )}
                 </div>
             </div>
