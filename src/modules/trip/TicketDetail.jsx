@@ -61,7 +61,6 @@ const TicketDetail = ({ tickets, trip, breakPointSortasc }) => {
 
   const handleContinue = () => {
     if (current === 1) {
-      setLoading(true);
       const pickpoinData = pickpointRef.current.getData();
       if (!pickpoinData.start_point || !pickpoinData.end_point) {
         toast.error('Vui lòng chọn điểm đón, trả');
@@ -84,9 +83,10 @@ const TicketDetail = ({ tickets, trip, breakPointSortasc }) => {
         setLoading(false);
         return;
       }
+      setLoading(true);
 
       router.push('/payment');
-      setLoading(false);
+
       return;
     }
     if (current === 0) {

@@ -72,7 +72,7 @@ const LoginModal = ({ visible, handleCancel }) => {
               rules={validateWithAntd(['required'])}
               className="p-4"
             />
-            <Button className="w-full h-[50px]" htmlType="submit">
+            <Button className="w-full h-[50px]" htmlType="submit" type="primary">
               Đăng nhập
             </Button>
             <div className="flex items-center justify-center" onClick={() => setIsLoginWithPhone((prev) => !prev)}>
@@ -84,9 +84,7 @@ const LoginModal = ({ visible, handleCancel }) => {
             <span className="">Hoặc</span>
             <div className="absolute w-[200px] right-0 h-[1px] z-[1] top-1/2 -translate-y-1/2 bg-[#b4abab]"></div>
           </div>
-          <Button className="w-full h-[50px]" type="primary">
-            Tiếp tục với google
-          </Button>
+          <Button className="w-full h-[50px]">Tiếp tục với google</Button>
           <div className="flex items-center gap-2 mt-4">
             <p>Bạn chưa có tài khoản? </p>
             <Link href="/" className="text-blue-500">

@@ -64,14 +64,16 @@ const SearchForm = ({ queryData = {} }) => {
         setCities(results);
     };
 
-    const handleSubmit = async (values) => {
-        await form.validateFields();
-        setLoading(true);
+  const handleSubmit = async (values) => {
+    setLoading(true);
+    await form.validateFields();
 
-        const queryString = new URLSearchParams(values).toString();
-        router.push(`/trip?${queryString}`);
-        setLoading(false);
-    };
+    const queryString = new URLSearchParams(values).toString();
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    router.push(`/trip?${queryString}`);
+  };
 
     const onFinishFailed = (errorInfo) => {
         console.log("Failed:", errorInfo);

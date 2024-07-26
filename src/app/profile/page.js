@@ -1,19 +1,22 @@
 'use client';
 
-import { Breadcrumb, Button, Form } from 'antd';
-import { useSearchParams } from 'next/navigation';
+import { Breadcrumb, Button, Form, message } from 'antd';
+import { useRouter, useSearchParams } from 'next/navigation';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ProForm, ProFormDatePicker, ProFormText } from '@ant-design/pro-components';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import Link from 'next/link';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useRecoilValue } from 'recoil';
-import { userInfoAtom } from '@/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { isAuthenticatedAtom, userInfoAtom } from '@/atom';
 import { useEffect } from 'react';
+import { withLogged } from '@/HOC';
 
-export default function Page({ params }) {
+function Page({ params }) {
   const searchParams = useSearchParams();
   const queryData = Object.fromEntries(searchParams.entries());
+  const setIsAuthenticated = useSetRecoilState(isAuthenticatedAtom);
+  const router = useRouter();
   const userInfo = useRecoilValue(userInfoAtom);
   const [form] = Form.useForm();
 
@@ -53,13 +56,18 @@ export default function Page({ params }) {
             <ConfirmationNumberIcon />
             <span>Đơn hàng của tôi</span>
           </Link>
-          <Link
-            href={'/logout'}
+          <span
+            onClick={() => {
+              localStorage.clear();
+              setIsAuthenticated(false);
+              message.success('Đăng xuất thành công');
+              router.push('/');
+            }}
             className="flex items-center p-3 transition-all cursor-pointer hover:bg-gray-200 gap-x-2 hover:rounded-lg"
           >
             <LogoutIcon />
             <span>Đăng xuất</span>
-          </Link>
+          </span>
         </div>
         <div className="flex-1 p-5 bg-white rounded-lg">
           <h3 className="mb-5">Thông tin tài khoản</h3>
@@ -85,3 +93,4 @@ export default function Page({ params }) {
     </div>
   );
 }
+export default withLogged(Page);
