@@ -30,6 +30,7 @@ const TripItem = ({ tripData }) => {
   const car = useMemo(() => tripData?.car, [tripData?.car]);
   const transportCompany = useMemo(() => car?.transport_company, [car?.transport_company]);
   const tickets = useMemo(() => tripData?.tickets, [tripData?.tickets]);
+  const breakPointSortasc = tripData?.break_point.sort((a, b) => Number(a.price) - Number(b.price));
 
   const emptySeats = useMemo(() => {
     if (!tickets) return 0;
@@ -91,7 +92,7 @@ const TripItem = ({ tripData }) => {
         </div>
         <div className="flex flex-col items-end justify-between">
           <div className="flex flex-col items-end gap-2">
-            <p className="text-xl font-semibold text-blue-500">Từ {formatCurrency(tickets?.[0]?.price)}</p>
+            <p className="text-xl font-semibold text-blue-500">Từ {formatCurrency(breakPointSortasc?.[0]?.price)}</p>
             {/* <Tag color="cyan">Giảm 50%</Tag> */}
             <span>Còn {emptySeats} chỗ trống</span>
           </div>
@@ -120,8 +121,8 @@ const TripItem = ({ tripData }) => {
           </div>
         </div>
       </div>
-      {openDetail && <TripDetail />}
-      {openTicketDetail && <TicketDetail tickets={tickets} trip={tripData} />}
+      {openDetail && <TripDetail trip={tripData} />}
+      {openTicketDetail && <TicketDetail tickets={tickets} trip={tripData} breakPointSortasc={breakPointSortasc} />}
     </div>
   );
 };

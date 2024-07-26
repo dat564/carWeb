@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { currentTripAtom } from '@/atom/currentTrip';
 import LocationIcon from '@/components/icons/LocationIcon';
@@ -7,13 +7,22 @@ import Image from 'next/image';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import DirectionsBusFilledOutlinedIcon from '@mui/icons-material/DirectionsBusFilledOutlined';
-import { formatDate, formatTime, getTimeFromDatetime, subtractDateTimes } from '@/utils/date';
+import {
+  convertDateAndFormat,
+  convertDatetime,
+  convertDatetimeAndFormat,
+  formatDate,
+  formatTime,
+  getTimeFromDatetime,
+  subtractDateTimes
+} from '@/utils/date';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import PaymentDrawer from '@/modules/payment/PaymentDrawer';
 import { image_url } from '@/configs/common';
 
 const PaymentTripDetail = () => {
   const currentTrip = useRecoilValue(currentTripAtom);
+  console.log({ currentTrip });
   const [visible, setVisible] = React.useState(false);
 
   return (
@@ -25,7 +34,7 @@ const PaymentTripDetail = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <DirectionsBusFilledOutlinedIcon className="text-blue-500" />
-              <span>{formatDate(new Date())}</span>
+              <span>{formatDate(convertDatetime(currentTrip?.trip?.departure_time))}</span>
               <div className="flex items-center">
                 <GroupOutlinedIcon className="text-gray-500" />
                 <span>{currentTrip.tickets.length}</span>
@@ -61,8 +70,8 @@ const PaymentTripDetail = () => {
           <div>
             <div className="flex items-center gap-4 font-medium">
               <div className="flex flex-col gap-8 text-lg">
-                <span>{formatTime(currentTrip.trip.departure_time)}</span>
-                <span>{formatTime(currentTrip.trip.scheduled_end_time)}</span>
+                <span>{formatTime(convertDateAndFormat(currentTrip.trip.departure_time))}</span>
+                <span>{formatTime(convertDateAndFormat(currentTrip.break_point?.scheduled_end_time))}</span>
               </div>
               <LocationIcon />
               <div className="flex flex-col gap-4 text-base">
@@ -71,7 +80,7 @@ const PaymentTripDetail = () => {
                   <span className="text-xs font-normal">{currentTrip.start_point}</span>
                 </p>
                 <p className="flex flex-col">
-                  <span>{currentTrip.trip.route_end}</span>
+                  <span>{currentTrip.break_point?.name}</span>
                   <span className="text-xs font-normal">{currentTrip.end_point}</span>
                 </p>
               </div>

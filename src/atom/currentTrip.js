@@ -9,6 +9,7 @@ export const currentTripAtom = atom({
     totalPrices: 0,
     start_point: '',
     end_point: '',
-    break_point_id: null
+    break_point_id: null,
+    break_point: null
   }
 });

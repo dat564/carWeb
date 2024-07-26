@@ -7,11 +7,11 @@ import PlaceIcon from '@mui/icons-material/Place';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
 import { currentTripAtom } from '@/atom/currentTrip';
 import { useRecoilValue } from 'recoil';
-import { formatDate, formatTime } from '@/utils/date';
+import { convertDateAndFormat, convertDatetime, formatDate, formatTime } from '@/utils/date';
 
 const PaymentDrawer = ({ visible, handleClose, data }) => {
   const currentTrip = useRecoilValue(currentTripAtom);
-  const { trip, tickets, totalPrices, start_point, end_point, car } = currentTrip || {};
+  const { trip, tickets, totalPrices, start_point, end_point, car, break_point } = currentTrip || {};
   const [loading, setLoading] = React.useState(false);
 
   return (
@@ -36,7 +36,7 @@ const PaymentDrawer = ({ visible, handleClose, data }) => {
         <div className="flex justify-between">
           <p>Tuyến</p>
           <span className="font-medium">
-            {trip?.route_start} ➡️ {trip?.route_end}
+            {trip?.route_start} ➡️ {break_point?.name}
           </span>
         </div>
         <div className="flex justify-between">
@@ -46,7 +46,8 @@ const PaymentDrawer = ({ visible, handleClose, data }) => {
         <div className="flex justify-between">
           <p>Chuyến</p>
           <span className="font-medium">
-            <span>{formatTime(trip?.departure_time)}</span> • <span>{formatDate(trip?.departure_time)}</span>
+            <span>{formatTime(convertDateAndFormat(trip?.departure_time))}</span> •{' '}
+            <span>{formatDate(convertDatetime(trip?.departure_time))}</span>
           </span>
         </div>
         <div className="flex justify-between">
@@ -78,7 +79,8 @@ const PaymentDrawer = ({ visible, handleClose, data }) => {
         >
           <div className="font-medium">
             {trip?.route_start} <br></br> {start_point}
-            <br></br> Dự kiến đón lúc: 17:03 09/07/2024
+            <br></br> Dự kiến đón lúc: {formatTime(convertDateAndFormat(trip.departure_time))}{' '}
+            {formatDate(convertDatetime(trip.departure_time))}
           </div>
         </Card>
         <Card
@@ -89,8 +91,9 @@ const PaymentDrawer = ({ visible, handleClose, data }) => {
           }
         >
           <div className="font-medium">
-            {trip.route_end} <br></br> {end_point}
-            <br></br> Dự kiến đón lúc: 17:03 09/07/2024
+            {break_point?.name} <br></br> {end_point}
+            <br></br> Dự kiến trả lúc: {formatTime(convertDateAndFormat(break_point?.scheduled_end_time))}{' '}
+            {formatDate(convertDatetime(break_point?.scheduled_end_time))}
           </div>
         </Card>
       </div>

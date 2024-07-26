@@ -139,7 +139,8 @@ const SearchForm = ({ queryData = {} }) => {
                       format: 'DD/MM/YYYY',
                       ref: dateRef,
                       open: openDate,
-                      onOpenChange: (status) => setOpenDate(status)
+                      onOpenChange: (status) => setOpenDate(status),
+                      disabledDate: (current) => current && current < moment().startOf('day')
                     }}
                     className="p-0 m-0 text-lg font-bold"
                     rules={[{ required: true, message: '' }]}
