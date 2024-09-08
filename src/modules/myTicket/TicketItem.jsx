@@ -24,16 +24,16 @@ const TicketItem = ({ currentTab, ticket, setRefresh }) => {
         ];
     }, [ticket.status]);
 
-    const enableCancelBtn = useMemo(() => {
-        const currentTime = new Date().getTime();
-        const departureTime = new Date(
-            convertDatetime(ticket.trip.departure_time)
-        ).getTime();
-        const isTenHoursBefore =
-            departureTime - currentTime > 10 * 60 * 60 * 1000;
-        const isTimeToDeparture = departureTime - currentTime <= 0;
-        return (isTenHoursBefore || isTimeToDeparture) && !isCanceled;
-    }, [isCanceled, ticket.trip.departure_time]);
+    // const enableCancelBtn = useMemo(() => {
+    //     const currentTime = new Date().getTime();
+    //     const departureTime = new Date(
+    //         convertDatetime(ticket.trip.departure_time)
+    //     ).getTime();
+    //     const isTenHoursBefore =
+    //         departureTime - currentTime > 10 * 60 * 60 * 1000;
+    //     const isTimeToDeparture = departureTime - currentTime <= 0;
+    //     return (isTenHoursBefore || isTimeToDeparture) && !isCanceled;
+    // }, [isCanceled, ticket.trip.departure_time]);
 
     const handleEvaluationClick = () => {
         notification.info({
@@ -95,33 +95,42 @@ const TicketItem = ({ currentTab, ticket, setRefresh }) => {
                         <div className='flex flex-row justify-between'>
                             <div className='flex flex-col gap-2'>
                                 <span className='font-medium'>
-                                    {formatDate(
+                                    {/* {formatDate(
                                         convertDatetime(
                                             ticket.trip.departure_time
                                         )
-                                    )}
+                                    )} */}
+                                    20/10/2021
                                 </span>
                                 <span className='font-medium text-[28px]'>
-                                    {formatTime(
+                                    {/* {formatTime(
                                         convertDatetimeAndFormat(
                                             ticket.trip.departure_time
                                         )
-                                    )}
+                                    )} */}
+                                    20:00
                                 </span>
                                 <span>
                                     {ticket.trip.car.transport_company.name}
                                 </span>
                                 <div className='flex-row items-center '>
-                                    <span>{ticket.trip.route_start}</span>
+                                    <span>
+                                        {/* { ticket.trip.route_start } */}
+                                        Hà Nội
+                                    </span>
                                     <span>➡️</span>
-                                    <span>{ticket.break_point.name}</span>
+                                    <span>
+                                        {/* { ticket.break_point.name } */}
+                                        Hồ Chí Minh
+                                    </span>
                                 </div>
                             </div>
                             <div className='text-[24px] font-bold text-green-500 mt-5'>
-                                {formatCurrency(
+                                {/* {formatCurrency(
                                     ticket?.total_price_applied_voucher ||
                                         ticket?.total_price
-                                )}
+                                )} */}
+                                1.000.000đ
                             </div>
                         </div>
                         {currentTab === "cancel" && (
@@ -145,7 +154,7 @@ const TicketItem = ({ currentTab, ticket, setRefresh }) => {
                             {currentTab === "past" ? (
                                 <div className='h-[50px] flex items-center font-medium gap-1 justify-end'>
                                     <button
-                                        onClick={handleEvaluationClick}
+                                        // onClick={handleEvaluationClick}
                                         className='flex items-center justify-center w-[100%] h-full text-white bg-yellow-400 rounded-lg'
                                     >
                                         Đánh giá
@@ -162,7 +171,7 @@ const TicketItem = ({ currentTab, ticket, setRefresh }) => {
                                                         true
                                                     );
                                                 } else {
-                                                    handleCancel();
+                                                    // handleCancel();
                                                 }
                                             }}
                                         >
@@ -172,7 +181,7 @@ const TicketItem = ({ currentTab, ticket, setRefresh }) => {
                                     {isWaiting && (
                                         <button
                                             className='flex items-center  justify-center w-full  h-[50px]  text-white bg-yellow-400 rounded-lg'
-                                            onClick={handlePayment}
+                                            // onClick={handlePayment}
                                         >
                                             Thanh toán
                                         </button>
@@ -185,7 +194,7 @@ const TicketItem = ({ currentTab, ticket, setRefresh }) => {
                 <ModalCancel
                     visible={isVisibleModalCancel}
                     onClose={() => setIsVisibleModalCancel(false)}
-                    handleCancelBill={handleCancel}
+                    // handleCancelBill={handleCancel}
                     ticket={ticket}
                 />
             </div>

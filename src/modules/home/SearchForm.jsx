@@ -64,16 +64,16 @@ const SearchForm = ({ queryData = {} }) => {
         setCities(results);
     };
 
-  const handleSubmit = async (values) => {
-    setLoading(true);
-    await form.validateFields();
+    const handleSubmit = async (values) => {
+        setLoading(true);
+        await form.validateFields();
 
-    const queryString = new URLSearchParams(values).toString();
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-    router.push(`/trip?${queryString}`);
-  };
+        const queryString = new URLSearchParams(values).toString();
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
+        router.push(`/trip?${queryString}`);
+    };
 
     const onFinishFailed = (errorInfo) => {
         console.log("Failed:", errorInfo);
@@ -97,12 +97,12 @@ const SearchForm = ({ queryData = {} }) => {
                 <Spin spinning={loading}>
                     <ProForm
                         submitter={false}
-                        initialValues={{
-                            ...queryData,
-                            date: queryData?.date
-                                ? moment(queryData?.date, "DD/MM/YYYY")
-                                : moment(),
-                        }}
+                        // initialValues={{
+                        //     ...queryData,
+                        //     date: queryData?.date
+                        //         ? moment(queryData?.date, "DD/MM/YYYY")
+                        //         : moment(),
+                        // }}
                         className='flex items-center gap-5'
                         form={form}
                         onFinish={handleSubmit}

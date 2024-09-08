@@ -14,48 +14,48 @@ const TripList = ({ queryData }) => {
     const { filter } = React.useContext(TripContext);
     console.log({ filter });
 
-    const handleGetTripList = useCallback(async () => {
-        setLoading(true);
-        const params = {
-            ...filter,
-            route_start: queryData.route_start,
-            route_end: queryData.route_end,
-            departure_time_min: convertDatetimeToServer(
-                moment(queryData.date, "DD/MM/YYYY")
-                    .startOf("day")
-                    .set({ hour: filter.departure_time_min || 0 })
-                    .format("DD/MM/YYYY HH:mm:ss")
-            ),
-            departure_time_max: convertDatetimeToServer(
-                moment(queryData.date, "DD/MM/YYYY")
-                    .endOf("day")
-                    .set({ hour: filter.departure_time_max || 23 })
-                    .format("DD/MM/YYYY HH:mm:ss")
-            ),
-        };
+    // const handleGetTripList = useCallback(async () => {
+    //     setLoading(true);
+    //     const params = {
+    //         ...filter,
+    //         route_start: queryData.route_start,
+    //         route_end: queryData.route_end,
+    //         departure_time_min: convertDatetimeToServer(
+    //             moment(queryData.date, "DD/MM/YYYY")
+    //                 .startOf("day")
+    //                 .set({ hour: filter.departure_time_min || 0 })
+    //                 .format("DD/MM/YYYY HH:mm:ss")
+    //         ),
+    //         departure_time_max: convertDatetimeToServer(
+    //             moment(queryData.date, "DD/MM/YYYY")
+    //                 .endOf("day")
+    //                 .set({ hour: filter.departure_time_max || 23 })
+    //                 .format("DD/MM/YYYY HH:mm:ss")
+    //         ),
+    //     };
 
-        const res = await getTripList(params);
-        setTripList(res?.data);
-        setLoading(false);
-    }, [queryData]);
+    //     const res = await getTripList(params);
+    //     setTripList(res?.data);
+    //     setLoading(false);
+    // }, [queryData]);
 
-    useEffect(() => {
-        handleGetTripList();
-    }, [handleGetTripList]);
+    // useEffect(() => {
+    //     handleGetTripList();
+    // }, [handleGetTripList]);
 
     return (
-        <Spin spinning={loading}>
-            <div className='flex flex-col gap-5'>
-                {tripList?.map((trip, index) => (
-                    <TripItem key={index} tripData={trip} />
-                ))}
-                {!tripList?.length && (
-                    <div className='text-xl font-medium text-center text-gray-500'>
-                        Không tìm thấy chuyến xe nào
-                    </div>
-                )}
-            </div>
-        </Spin>
+        // <Spin spinning={loading}>
+        <div className='flex flex-col gap-5'>
+            {/* {tripList?.map((trip, index) => ( */}
+            <TripItem />
+            {/* ))} */}
+            {/* {!tripList?.length && (
+                <div className='text-xl font-medium text-center text-gray-500'>
+                    Không tìm thấy chuyến ga nào
+                </div>
+            )} */}
+        </div>
+        // </Spin>
     );
 };
 

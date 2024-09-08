@@ -23,36 +23,37 @@ export default function Page({ params }) {
     const userInfo = useRecoilValue(userInfoAtom);
 
     const handleContinue = async () => {
-        try {
-            setLoading(true);
-            const { data } = await createBill([
-                {
-                    phone: phone,
-                    trip_id: currentTrip.trip.id,
-                    breakpoint_trip_id: currentTrip.break_point_id,
-                    pick_up_point: currentTrip.start_point,
-                    drop_off_point: currentTrip.end_point,
-                    ticket_ids: currentTrip.tickets.map((item) => item.id),
-                },
-            ]);
-            router.push(`/payment-method?billId=${data[0].id}`);
-        } catch (error) {
-            setLoading(false);
-        } finally {
-            setLoading(false);
-        }
+        // try {
+        //     setLoading(true);
+        //     const { data } = await createBill([
+        //         {
+        //             phone: phone,
+        //             trip_id: currentTrip.trip.id,
+        //             breakpoint_trip_id: currentTrip.break_point_id,
+        //             pick_up_point: currentTrip.start_point,
+        //             drop_off_point: currentTrip.end_point,
+        //             ticket_ids: currentTrip.tickets.map((item) => item.id),
+        //         },
+        //     ]);
+        //     router.push(`/payment-method?billId=${data[0].id}`);
+        // } catch (error) {
+        //     setLoading(false);
+        // } finally {
+        //     setLoading(false);
+        // }
+        router.push(`/payment-method`);
     };
 
-    useEffect(() => {
-        if (userInfo) {
-            setPhone(userInfo.phone);
-            setName(userInfo.name);
-        }
-    }, [userInfo]);
+    // useEffect(() => {
+    //     if (userInfo) {
+    //         setPhone(userInfo.phone);
+    //         setName(userInfo.name);
+    //     }
+    // }, [userInfo]);
 
-    if (!Object.keys(currentTrip.trip).length) {
-        return router.back();
-    }
+    // if (!Object.keys(currentTrip.trip).length) {
+    //     return router.back();
+    // }
 
     return (
         <Spin spinning={loading}>
@@ -138,11 +139,12 @@ export default function Page({ params }) {
                         <div className='flex justify-between w-full p-5 text-lg font-medium bg-white rounded-lg'>
                             <h3>Tạm tính: </h3>
                             <span>
-                                {formatCurrency(currentTrip.totalPrices)}
+                                {/* {formatCurrency(currentTrip.totalPrices)} */}
+                                200.000đ
                             </span>
                         </div>
                         <PaymentTripDetail
-                            currentTrip={currentTrip}
+                        // currentTrip={currentTrip}
                         ></PaymentTripDetail>
                     </div>
                 </div>

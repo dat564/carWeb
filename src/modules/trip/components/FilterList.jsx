@@ -28,20 +28,20 @@ const FilterList = () => {
         //         ? `${filterValues.departure_time[1]}:00`
         //         : "24:00"
         // );
-        setFilter({
-            ticket_price_min: filterValues.price ? filterValues.price[0] : 0,
-            ticket_price_max: filterValues.price
-                ? filterValues.price[1]
-                : 2000000,
-            average_trip_rating_min: filterValues.rating
-                ? filterValues.rating[0]
-                : 0,
-            average_trip_rating_max: filterValues.rating
-                ? filterValues.rating[1]
-                : 5,
-            departure_time_min: filterValues.departure_time[0],
-            departure_time_max: filterValues.departure_time[1],
-        });
+        // setFilter({
+        //     ticket_price_min: filterValues.price ? filterValues.price[0] : 0,
+        //     ticket_price_max: filterValues.price
+        //         ? filterValues.price[1]
+        //         : 2000000,
+        //     average_trip_rating_min: filterValues.rating
+        //         ? filterValues.rating[0]
+        //         : 0,
+        //     average_trip_rating_max: filterValues.rating
+        //         ? filterValues.rating[1]
+        //         : 5,
+        //     departure_time_min: filterValues.departure_time[0],
+        //     departure_time_max: filterValues.departure_time[1],
+        // });
     };
 
     const handleSliderChange = (key, value) => {
