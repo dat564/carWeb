@@ -105,4 +105,4 @@ function Page({ params }) {
         </div>
     );
 }
-export default withLogged(Page);
+export default Page;
